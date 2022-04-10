@@ -1,0 +1,63 @@
+#include <iostream>
+using namespace std;
+enum sex { man, woman };
+class date_class
+{
+public:
+    date_class(int day,int month,int year);
+    ~date_class(){cout << "date_class析构函数被调用" << endl; }
+    date_class(date_class &p);
+private:
+    int day, month, year;
+};
+date_class::date_class(date_class &p) { //复制构造函数
+    day = p.day;
+    month = p.month;
+    year = p.year;
+    cout << "date_class复制构造函数被调用" << endl;
+}
+date_class::date_class(int day = 1, int month = 1, int year = 2000)
+{
+    this->day = day;
+    this->month = month;
+    this->year = year;
+    cout << "date_class 构造函数被调用" << endl;
+}
+class person
+{
+public:
+    void setNumber(int number) { this->number = number; }
+    void setSex(sex sex1) { this->sex1 = sex1; }
+    void setId_card(int id_card) { this->id_card = id_card; }
+    person(person& p);
+    person(int number,int id_card ,sex sex1,date_class date);
+    ~person(){ cout << "person析构函数被调用" << endl; }
+private:
+    int number,id_card;
+     sex sex1;
+    date_class date;
+};
+
+person::person(int number, int id_card, sex sex1, date_class date1):date( date1)//构造函数
+{
+    this->number = number;
+    this->id_card = id_card;
+    this->sex1 = sex1;
+    cout << "person构造函数被调用" << endl;
+}
+
+
+person::person(person &p):date(p.date) {//复制构造函数
+    number = p.number;
+    id_card = p.id_card;
+    sex1 = p.sex1;
+    cout << "person复制构造函数被调用" << endl;
+}
+
+int main() {
+ 
+    date_class czw(19, 1, 2000);
+    person chenzuwei(3068, 20182111, man, czw);//进入该程序先调用date_class的复制构造函数
+    person czwson(chenzuwei);
+    return 0;
+}
